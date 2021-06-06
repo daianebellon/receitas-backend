@@ -1,7 +1,5 @@
 package br.com.daianebellon.receitas.categoria;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import javax.persistence.*;
 
 @Entity
@@ -11,7 +9,11 @@ public class CategoriaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String nome;
+
+    @Column(nullable = false)
     private String descricao;
 
 

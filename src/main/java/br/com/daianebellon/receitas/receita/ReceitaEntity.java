@@ -9,8 +9,15 @@ public class ReceitaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String titulo;
+
+    @Column(nullable = false)
     private String modoPreparo;
+
+    @Column(nullable = false)
+    private Integer tempo;
 
     @Override
     public String toString() {
@@ -43,6 +50,14 @@ public class ReceitaEntity {
 
     public void setModoPreparo(String modoPreparo) {
         this.modoPreparo = modoPreparo;
+    }
+
+    public Integer getTempo() {
+        return tempo;
+    }
+
+    public void setTempo(Integer tempo) {
+        this.tempo = tempo;
     }
 }
 
