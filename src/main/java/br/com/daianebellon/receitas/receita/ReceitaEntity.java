@@ -1,5 +1,7 @@
 package br.com.daianebellon.receitas.receita;
 
+import br.com.daianebellon.receitas.categoria.CategoriaEntity;
+
 import javax.persistence.*;
 
 @Entity
@@ -18,6 +20,9 @@ public class ReceitaEntity {
 
     @Column(nullable = false)
     private Integer tempo;
+
+    @ManyToOne(optional = false)
+    private CategoriaEntity categoria;
 
     @Override
     public String toString() {
@@ -58,6 +63,14 @@ public class ReceitaEntity {
 
     public void setTempo(Integer tempo) {
         this.tempo = tempo;
+    }
+
+    public CategoriaEntity getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(CategoriaEntity categoria) {
+        this.categoria = categoria;
     }
 }
 

@@ -16,6 +16,9 @@ public class CategoriaEntity {
     @Column(nullable = false)
     private String descricao;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TipoCategoria tipo;
 
     public String getNome() {
         return nome;
@@ -39,5 +42,13 @@ public class CategoriaEntity {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public TipoCategoria getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoCategoria tipo) {
+        this.tipo = tipo;
     }
 }
