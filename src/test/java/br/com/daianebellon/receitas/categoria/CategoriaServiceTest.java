@@ -46,4 +46,88 @@ public class CategoriaServiceTest {
         assertEquals(categoriaEntity.getId(), categoriaEntityRetorno.getId());
     }
 
+    @Test
+    public void verificaSeCategoriaEhNull() {
+        try {
+            categoriaService.cadastrarCategoria(null);
+            fail();
+        } catch (NullPointerException e) {
+            assertEquals("Categoria inválida.", e.getMessage());
+        }
+    }
+
+    @Test
+    public void cadastrarCategoriaQuandoCategoriaNomeForNull() {
+        CategoriaEntity categoriaEntity = new CategoriaEntity();
+        categoriaEntity.setNome(null);
+        categoriaEntity.setDescricao("bolo de chocolate");
+        categoriaEntity.setTipo(TipoCategoria.COMIDA);
+
+        try {
+            categoriaService.cadastrarCategoria(categoriaEntity);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals("nome inválido.", e.getMessage());
+        }
+    }
+
+    @Test
+    public void cadastrarCategoriaQuandoCategoriaNomeForEmBranca() {
+        CategoriaEntity categoriaEntity = new CategoriaEntity();
+        categoriaEntity.setNome("  ");
+        categoriaEntity.setDescricao("bolo de chocolate");
+        categoriaEntity.setTipo(TipoCategoria.COMIDA);
+
+        try {
+            categoriaService.cadastrarCategoria(categoriaEntity);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals("nome inválido.", e.getMessage());
+        }
+    }
+
+    @Test
+    public void cadastrarCategoriaQuandoCategoriaDescricaoForNull() {
+        CategoriaEntity categoriaEntity = new CategoriaEntity();
+        categoriaEntity.setNome("Bolo de chocolate");
+        categoriaEntity.setDescricao(null);
+        categoriaEntity.setTipo(TipoCategoria.COMIDA);
+
+        try {
+            categoriaService.cadastrarCategoria(categoriaEntity);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals("descricao inválida.", e.getMessage());
+        }
+    }
+
+    @Test
+    public void cadastrarCategoriaQuandoCategoriaDescricaoForEmBranca() {
+        CategoriaEntity categoriaEntity = new CategoriaEntity();
+        categoriaEntity.setNome("Bolo de chocolate");
+        categoriaEntity.setDescricao("      ");
+        categoriaEntity.setTipo(TipoCategoria.COMIDA);
+
+        try {
+            categoriaService.cadastrarCategoria(categoriaEntity);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals("descricao inválida.", e.getMessage());
+        }
+    }
+
+    @Test
+    public void cadastrarCategoriaQuandoTipoCategoriaForNull() {
+        CategoriaEntity categoriaEntity = new CategoriaEntity();
+        categoriaEntity.setNome("Bolo de chocolate");
+        categoriaEntity.setDescricao("Bata no liquidificador");
+        categoriaEntity.setTipo(null);
+
+        try {
+            categoriaService.cadastrarCategoria(categoriaEntity);
+            fail();
+        } catch (NullPointerException e) {
+            assertEquals("Tipo inválido.", e.getMessage());
+        }
+    }
 }
