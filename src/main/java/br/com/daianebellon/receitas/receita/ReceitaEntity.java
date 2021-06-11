@@ -12,7 +12,7 @@ public class ReceitaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false) //não permite valores nulos
     private String titulo;
 
     @Column(nullable = false)

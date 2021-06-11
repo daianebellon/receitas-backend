@@ -14,14 +14,14 @@ public class ReceitaService {
     @Autowired
     private ReceitaRepository receitaRepository;
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true) //transacao somente leitura (só faz select)
     public List<ReceitaEntity> buscarReceitas() {
         return receitaRepository.findAll();
     }
 
     @Transactional(readOnly = true)
     public ReceitaEntity buscarPeloId(Long id) {
-        Optional<ReceitaEntity> receita = receitaRepository.findById(id);
+        Optional<ReceitaEntity> receita = receitaRepository.findById(id); //Optional - trabalha com objetos que podem ou não ser null
         return receita.orElseThrow(() -> new NoResultException("Não encontrou!"));
     }
 

@@ -32,6 +32,9 @@ public class CategoriaService {
 
     @Transactional
     public void deletarCategoriaPeloId(Long id) {
+        if(id == null){
+           throw new NullPointerException("Id null");
+        }
         categoriaRepository.deleteById(id);
     }
 

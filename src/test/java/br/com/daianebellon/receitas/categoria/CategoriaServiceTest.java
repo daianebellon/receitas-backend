@@ -1,20 +1,22 @@
 package br.com.daianebellon.receitas.categoria;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class CategoriaServiceTest {
 
-    @InjectMocks
+    @InjectMocks //
     private CategoriaService categoriaService;
 
     @Mock
@@ -69,6 +71,8 @@ public class CategoriaServiceTest {
         } catch (IllegalArgumentException e) {
             assertEquals("nome inválido.", e.getMessage());
         }
+
+        verify(categoriaRepository, never()).save(categoriaEntity);
     }
 
     @Test
@@ -128,6 +132,55 @@ public class CategoriaServiceTest {
             fail();
         } catch (NullPointerException e) {
             assertEquals("Tipo inválido.", e.getMessage());
+        }
+
+    }
+
+    @Test
+    public void cadastrarCategoria() {
+        CategoriaEntity categoriaEntity = new CategoriaEntity();
+        categoriaEntity.setId(1L);
+        categoriaEntity.setNome("Bolo");
+        categoriaEntity.setDescricao("Bolo de cenoura");
+        categoriaEntity.setTipo(TipoCategoria.COMIDA);
+
+        categoriaService.cadastrarCategoria(categoriaEntity);
+
+        verify(categoriaRepository).save(categoriaEntity);
+    }
+
+    @Test
+    public void buscarCategorias() {
+        CategoriaEntity categoriaEntity = new CategoriaEntity();
+        categoriaEntity.setNome("Suco");
+        categoriaEntity.setDescricao("Suco de frutas vermelhas batidas no liquidificador");
+        categoriaEntity.setTipo(TipoCategoria.BEBIDA);
+
+        CategoriaEntity categoriaEntity1 = new CategoriaEntity();
+        categoriaEntity1.setNome("Torta");
+        categoriaEntity1.setDescricao("Torta de chocolate");
+        categoriaEntity1.setTipo(TipoCategoria.COMIDA);
+
+        when(categoriaRepository.findAll()).thenReturn(List.of(categoriaEntity, categoriaEntity1));
+
+        List<CategoriaEntity> categoriaEntityRetornoList = categoriaService.buscarCategorias();
+
+        Assertions.assertEquals(2, categoriaEntityRetornoList.size());
+    }
+
+    @Test
+    public void deletarCategoriaPeloId() {
+        categoriaService.deletarCategoriaPeloId(1L);
+        verify(categoriaRepository).deleteById(1L);
+    }
+
+    @Test
+    public  void deletarCategoriaQuandoIdForNull() {
+        try {
+            categoriaService.deletarCategoriaPeloId(null);
+            fail();
+        } catch (NullPointerException e) {
+            assertEquals("Id null", e.getMessage());
         }
     }
 }
